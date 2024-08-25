@@ -22,7 +22,6 @@ app.get("/bfhl", (req, res) => {
 app.post("/bfhl", (req, res) => {
     try {
         const { data } = req.body;
-
         if (!Array.isArray(data)) {
             return res.status(400).json({
                 is_success: false,
@@ -31,7 +30,7 @@ app.post("/bfhl", (req, res) => {
         }
 
         const numbers = data.filter(item => !isNaN(item) && item !== '');
-        const alphabets = data.filter(item => typeof item === 'string' && item.length === 1 && isNaN(item));
+        const alphabets = data.filter(item => isNaN(item) && typeof item === "string" && item.length === 1);
         const lowercaseAlphabets = alphabets.filter(item => item >= 'a' && item <= 'z');
         const highestLowercaseAlphabet = lowercaseAlphabets.length > 0 ? [lowercaseAlphabets.sort().pop()] : [];
 
@@ -57,8 +56,4 @@ app.post("/bfhl", (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
-
-app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`);
 });
